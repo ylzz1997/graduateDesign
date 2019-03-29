@@ -12,6 +12,8 @@ public class DrawView extends View implements View.OnTouchListener {
     float canvasWidth,canvasHeight;//画布宽、高
     float width,height;//自定义长宽
     float left,up;//自定义左上角位置
+    private DateBean dateBean;
+
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -34,7 +36,8 @@ public class DrawView extends View implements View.OnTouchListener {
         canvasWidth=(float)canvas.getWidth();
         canvasHeight=(float)canvas.getHeight();
         //自定义长宽
-        width=2*PI;height=2*PI*canvasHeight/canvasWidth;
+        width=height*canvasWidth/canvasHeight;
+        height=(float)(1.5*dateBean.getHeight());
         // 自定义左上角位置
         left=-width/2;up=height/2;
     }
@@ -43,17 +46,11 @@ public class DrawView extends View implements View.OnTouchListener {
     void Render(Canvas canvas){
         //新建画笔
         Paint paint=new Paint();
-        //画网格线。
-        paint.setARGB(255, 255, 0, 0);
-        DrawGrid(canvas,0.3f,0.3f,paint);
-        //画坐标线。
-        paint.setARGB(255,0,0,0);
-        DrawCoord(canvas,paint);
-        //显示横、纵坐标轴名称和原点名称。(重要提示:这里就是你想要的新东西)
-        paint.setARGB(255,100,100,100);
-        DrawCoordName(canvas,paint,"t","f(t)","O");
         //画曲线
-        DrawCurve(canvas, paint);
+        if(dateBean==null)
+            DrawCurve(canvas, paint);
+        else if(dateBean!=null)
+            DrawCurve(canvas, paint);
     }
     //画网格线。
     //要先画网格再画坐标，不然网格线会把坐标线覆盖掉从而看不到坐标线
@@ -86,14 +83,7 @@ public class DrawView extends View implements View.OnTouchListener {
             y-=dy;
         }
     }
-    //画坐标线。
-    void DrawCoord(Canvas canvas,Paint paint){
-        //画x,y坐标
-        canvas.drawLine(PX(left),PY(0f),PX(left+width),PY(0f),paint);
-        canvas.drawLine(PX(0f),PY(up),PX(0f),PY(up-height),paint);
-    }
-    //(重要提示:这里就是你想要的新东西)
-    //显示横、纵坐标轴名称和原点名称。
+
     void DrawCoordName(Canvas canvas,Paint paint,String xAxisName,String yAxisName,String originName){
         //设置文字大小
         paint.setTextSize(40f);
@@ -128,5 +118,13 @@ public class DrawView extends View implements View.OnTouchListener {
     }
     float PY(float y){
         return (up-y)*canvasHeight/height;
+    }
+
+    public DateBean getDateBean() {
+        return dateBean;
+    }
+
+    public void setDateBean(DateBean dateBean) {
+        this.dateBean = dateBean;
     }
 }
