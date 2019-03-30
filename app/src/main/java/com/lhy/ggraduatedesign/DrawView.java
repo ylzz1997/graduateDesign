@@ -23,10 +23,17 @@ public class DrawView extends View implements View.OnTouchListener {
         super.onDraw(canvas);
         //开始一定要先调用Init()初始化参数。我自定义的参数没有默认值。
         if(dateBean==null){
+            Paint paint=new Paint();
+            paint.setTextSize(100f);
+            canvas.drawText("尚未投掷",250,250,paint);
+        }else if(dateBean!=null&&dateBean.getVx()==0){
+            Paint paint=new Paint();
+            paint.setTextSize(100f);
+            canvas.drawText("投掷失败",250,250,paint);
+        }
+        else{
             Init(canvas);
             Render(canvas);
-        }else if(dateBean!=null){
-
         }
     }
     @Override
@@ -100,10 +107,17 @@ public class DrawView extends View implements View.OnTouchListener {
     //画曲线函数。
     //使用画布坐标。所以要调用PX(x),PY(y)把自定义坐标里的量(如x,y)转换成画布坐标。
     void DrawCurve(Canvas canvas,Paint paint){//绘制曲线
-
+        double vx = dateBean.getVx();
+        double vy = dateBean.getVy();
+        float bodyHeight = dateBean.getBodyHeight();
+        double time = dateBean.getTime();
+        double distant = dateBean.getDistant();
+        double height = dateBean.getHeight();
+        double a = vy/vx;
+        double b = 9.8/(2*vx*vx);
         paint.setARGB(255,0,0,255);
-            for(float x=left;x<left+width;x+=0.001f){
-                float y=(float)Math.sin(x);
+            for(float x=left;x<distant;x+=0.001f){
+                float y=(float)(a*x-b*x*x+bodyHeight);
             DrawPoint(canvas,x,y,paint);
         }
         //因为x,y是自定义坐标，canvas.drawText()是系统提供的函数，
