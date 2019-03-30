@@ -22,8 +22,12 @@ public class DrawView extends View implements View.OnTouchListener {
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
         //开始一定要先调用Init()初始化参数。我自定义的参数没有默认值。
-        Init(canvas);
-        Render(canvas);
+        if(dateBean==null){
+            Init(canvas);
+            Render(canvas);
+        }else if(dateBean!=null){
+
+        }
     }
     @Override
     public boolean onTouch(View view, MotionEvent event) {
@@ -39,22 +43,17 @@ public class DrawView extends View implements View.OnTouchListener {
         width=height*canvasWidth/canvasHeight;
         height=(float)(1.5*dateBean.getHeight());
         // 自定义左上角位置
-        left=-width/2;up=height/2;
+        left=0;up=height;
     }
     //渲染画面。
     //画图步骤在这里。
     void Render(Canvas canvas){
         //新建画笔
         Paint paint=new Paint();
-        //画曲线
-        if(dateBean==null)
-            DrawCurve(canvas, paint);
-        else if(dateBean!=null)
-            DrawCurve(canvas, paint);
+        DrawCurve(canvas, paint);
     }
-    //画网格线。
-    //要先画网格再画坐标，不然网格线会把坐标线覆盖掉从而看不到坐标线
-    //dx,dy:
+
+
     void DrawGrid(Canvas canvas,float dx,float dy,Paint paint){
         //画纵向网格线
         //左侧
