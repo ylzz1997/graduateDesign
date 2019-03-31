@@ -47,8 +47,13 @@ public class DrawView extends View implements View.OnTouchListener {
         canvasWidth=(float)canvas.getWidth();
         canvasHeight=(float)canvas.getHeight();
         //自定义长宽
-        width=height*canvasWidth/canvasHeight;
-        height=(float)(1.5*dateBean.getHeight());
+        if(dateBean.getHeight()>dateBean.getDistant()*canvasHeight/canvasWidth){
+            width=height*canvasWidth/canvasHeight;
+            height=(float)(1.1*dateBean.getHeight());
+        }else {
+            height=width*canvasHeight/canvasWidth;
+            width=(float)(dateBean.getDistant());
+        }
         // 自定义左上角位置
         left=0;up=height;
     }
@@ -115,14 +120,14 @@ public class DrawView extends View implements View.OnTouchListener {
         double height = dateBean.getHeight();
         double a = vy/vx;
         double b = 9.8/(2*vx*vx);
-        paint.setARGB(255,0,0,255);
+        paint.setARGB(255,0,0,0);
+        paint.setStrokeWidth(12);
             for(float x=left;x<distant;x+=0.001f){
                 float y=(float)(a*x-b*x*x+bodyHeight);
             DrawPoint(canvas,x,y,paint);
         }
         //因为x,y是自定义坐标，canvas.drawText()是系统提供的函数，
         // 所以要调用PX(),PY()将(PI/2,sin(PI/2))转换成画布坐标；
-        canvas.drawText("f(t)=sin(t)",PX(PI/2),PY((float)Math.sin(PI/2)),paint);
     }
     //将自定义坐标转换成画布坐标的函数，
     //当要用自定义坐标在系统提供的函数上绘图时，要调用这两个函数把自定义坐标转换成画布坐标

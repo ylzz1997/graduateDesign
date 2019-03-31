@@ -22,12 +22,14 @@ public class MainActivity extends AppCompatActivity {
     Button bt;
     Button bto;
     Button setb;
+    DrawView dv;
     float body_height = 1.5f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dv=findViewById(R.id.drawView);
         settings = getSharedPreferences("setting", 0);
         body_height = Float.parseFloat(settings.getString("bh","1.5"));
         bto = findViewById(R.id.button_one);
@@ -63,7 +65,10 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 tv = findViewById(R.id.main_text);
-                tv.setText(dp.getFinalAngal()+" "+dp.getFinalSpeed()+" \n"+su.getAngal().size()+" "+su.getAccelerations().size()+"\n"+a);
+                DateBean dateBean = new DateBean(dp.getFinalAngal(), dp.getFinalSpeed(), body_height);
+                dv.setDateBean(dateBean);
+                tv.setText(dp.getFinalAngal()+" "+dp.getFinalSpeed()+" \n"+su.getAngal().size()+" "+dateBean.getDistant()+" "+su.getAccelerations().size()+"\n"+a);
+                dv.invalidate();
                 su.Reset();
                 break;
         }
