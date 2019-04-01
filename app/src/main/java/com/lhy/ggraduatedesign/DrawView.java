@@ -47,9 +47,9 @@ public class DrawView extends View implements View.OnTouchListener {
         canvasWidth=(float)canvas.getWidth();
         canvasHeight=(float)canvas.getHeight();
         //自定义长宽
-        if(dateBean.getHeight()>dateBean.getDistant()*canvasHeight/canvasWidth){
+        if(dateBean.getHeight()*1.1>dateBean.getDistant()*canvasHeight/canvasWidth){
             width=height*canvasWidth/canvasHeight;
-            height=(float)(1.1*dateBean.getHeight());
+            height=(float)(dateBean.getHeight());
         }else {
             height=width*canvasHeight/canvasWidth;
             width=(float)(dateBean.getDistant());

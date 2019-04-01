@@ -13,6 +13,8 @@ package com.lhy.ggraduatedesign;
         import android.widget.TextView;
         import android.widget.Toast;
 
+        import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
 
     SharedPreferences settings;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dv=findViewById(R.id.drawView);
+        tv = findViewById(R.id.item_text);
         settings = getSharedPreferences("setting", 0);
         body_height = Float.parseFloat(settings.getString("bh","1.5"));
         bto = findViewById(R.id.button_one);
@@ -59,15 +62,11 @@ public class MainActivity extends AppCompatActivity {
                 su.Pause();
                 dp = new DateProcessor(su.getAngal(),su.getAccelerations(),su.getGyroscopes());
 
-                String a = "";
-                for(float[] i : su.getAngal()){
-                    a+=i[2]+" ";
-                }
-
-                tv = findViewById(R.id.main_text);
+                tv = findViewById(R.id.item_text);
                 DateBean dateBean = new DateBean(dp.getFinalAngal(), dp.getFinalSpeed(), body_height);
                 dv.setDateBean(dateBean);
-                tv.setText(dp.getFinalAngal()+" "+dp.getFinalSpeed()+" \n"+su.getAngal().size()+" "+dateBean.getDistant()+" "+su.getAccelerations().size()+"\n"+a);
+                DecimalFormat df = new DecimalFormat(".00");
+                tv.setText("投掷距离: \n"+df.format(dateBean.getDistant())+"\n投掷最高高度: \n"+df.format(dateBean.getHeight())+"\n身高: \n"+body_height+"\n 出球速度: \n"+df.format(dp.getFinalSpeed())+"\n出球角度: \n"+df.format(90-dp.getFinalAngal()));
                 dv.invalidate();
                 su.Reset();
                 break;

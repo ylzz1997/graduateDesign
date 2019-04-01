@@ -50,7 +50,6 @@ public class SensorUtil implements SensorEventListener {
                         result[1] = (float) ((360f+values[1]*180f/Math.PI)%360);
                         result[2] = (float) ((360f+values[2]*180f/Math.PI)%360);
                         angal.add(new float[]{result[0],result[1],result[2]});
-
                     }
             }
                 /*
@@ -85,8 +84,6 @@ public class SensorUtil implements SensorEventListener {
     public void Pause(){
         mSensorManager.unregisterListener(this);
         handler.sendEmptyMessage(1);
-        TextView tv = ((Activity)context).findViewById(R.id.main_text);
-        tv.setText("暂停");
     }
 
 
