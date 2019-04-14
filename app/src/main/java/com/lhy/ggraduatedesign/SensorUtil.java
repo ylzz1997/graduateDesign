@@ -44,7 +44,7 @@ public class SensorUtil implements SensorEventListener {
                 if(gravity!=null && geomagnetic!=null) {
                     accelerations.add(new float[]{linerAcceleration[0],linerAcceleration[1],linerAcceleration[2]});
                     gyroscopes.add(new float[]{gyroscope[0],gyroscope[1],gyroscope[2]});
-                    if(SensorManager.getRotationMatrix(r, null, gravity, geomagnetic)) {
+                        if(SensorManager.getRotationMatrix(r, null, gravity, geomagnetic)) {
                         SensorManager.getOrientation(r, values);
                         result[0] = (float) ((360f+values[0]*180f/Math.PI)%360);
                         result[1] = (float) ((360f+values[1]*180f/Math.PI)%360);
